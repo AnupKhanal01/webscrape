@@ -35,26 +35,21 @@ def scrape_data():
             soup = BeautifulSoup(response.text, 'html.parser')
 
             # Debug: Print raw HTML for inspection
-            print(f"HTML content for {url}:
-", soup.prettify())
+            print(f"HTML content for {url}:\n", soup.prettify())
 
-            # Extract required information (customize as needed)
-            if "myjuniper" in url:
-                price = soup.select_one('.price')
-                guarantee = soup.select_one('.guarantee')
-                price = price.text.strip() if price else "N/A"
-                guarantee = guarantee.text.strip() if guarantee else "N/A"
-            elif "getmoshy" in url:
-                price = soup.select_one('.price')
-                guarantee = soup.select_one('.guarantee')
-                price = price.text.strip() if price else "N/A"
-                guarantee = guarantee.text.strip() if guarantee else "N/A"
+            # Extract titles and paragraphs related to price and money-back guarantee
+            price_titles = [tag.text.strip() for tag in soup.find_all(['title', 'p'], string=lambda text: text and 'price' in text.lower())]
+            guarantee_titles = [tag.text.strip() for tag in soup.find_all(['title', 'p'], string=lambda text: text and 'money-back guarantee' in text.lower())]
+
+            # Join the extracted data as strings
+            price_info = " ".join(price_titles) if price_titles else "N/A"
+            guarantee_info = " ".join(guarantee_titles) if guarantee_titles else "N/A"
 
             # Append the data
             data.append({
                 'URL': url,
-                'Price': price,
-                'Money-Back Guarantee': guarantee,
+                'Price Info': price_info,
+                'Money-Back Guarantee Info': guarantee_info,
                 'Scraped At': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             })
 
