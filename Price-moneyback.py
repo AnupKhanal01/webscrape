@@ -12,7 +12,7 @@ drive.mount('/content/drive')
 # Define the URLs to scrape
 urls = [
     "https://youly.com.au/treatment/weight-loss/",
-    "https://www.vively.com.au/post/freestyle-libre-2-vs-vively-cgm-program",
+    "https://www.myjuniper.com/program",
     "https://www.getmoshy.com.au/weight-loss"
 ]
 
